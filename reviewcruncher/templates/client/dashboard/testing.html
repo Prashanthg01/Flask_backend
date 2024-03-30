@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+	<link rel="stylesheet" href= "https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" /> 
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"> </script> 
+	<script type="text/javascript" src= "https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"> </script>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #4caf50;
+        color: white;
+    }
+
+    .image-container {
+        margin-top: 20px;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+<body>
+    <form method="post" action="{{ url_for('client.digital_library') }}">
+        <input type="text" name="search" placeholder="Search by title">
+        <button type="submit">Search</button>
+    </form>
+    <table id="tableID" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>SL NO.</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Publisher</th>
+                <th>Language</th>
+                <th>PDF File</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pdf in pdfs %}
+                <tr onclick="viewPdf('{{ pdf.title }}', '{{ pdf.image_file }}', '{{ pdf.category_id }}')">
+                    <td>{{ pdf.id }}</td>
+                    <td>{{ pdf.title }}</td>
+                    <td>{{ pdf.author }}</td>
+                    <td>{{ pdf.publisher }}</td>
+                    <td>{{ pdf.language }}</td>
+                    <td>
+                        <a href="{{ url_for('client.view_pdf', filename=pdf.pdf_file, category_id=pdf.category_id, service='Digital library') }}">Read</a>
+                    </td>
+                    <td class="d-none">{{ pdf.image_file }}</td>
+                    <td class="d-none">{{ pdf.category_id }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="image-container" id="imageContainer" style="display: none;">
+        <img id="imageDisplay" src="" alt="Image">
+    </div>
+
+    <form id="viewPdfForm" method="post" action="{{ url_for('client.digital_library') }}" style="display: none;">
+        <input type="hidden" name="title" id="titleInput">
+        <input type="hidden" name="image_file" id="imgInput">
+        <input type="hidden" name="category_id" id="category_idInput">
+    </form>
+	<script> 
+
+		/* Initialization of datatable */ 
+		$(document).ready(function() { 
+			$('#tableID').DataTable({ }); 
+		}); 
+	</script> 
+</body>   
+<script>
+    function viewPdf(title, image_file, category_id) {
+        document.getElementById('titleInput').value = title;
+        document.getElementById('imgInput').value = image_file;
+        document.getElementById('category_idInput').value = category_id;
+
+        // Construct the image path using the base URL and update the image source
+        var baseUrl = "{{ url_for('static', filename='') }}";
+        var imagePath = baseUrl +'img/' + 'Digital Library/' + image_file;
+        document.getElementById('imageDisplay').src = imagePath;
+
+        // Display the image container
+        document.getElementById('imageContainer').style.display = 'block';
+    }
+</script>
+</html>

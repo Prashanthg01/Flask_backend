@@ -1,0 +1,47 @@
+{% extends "admin/admin_base.html" %}
+
+{% block custom_css %}
+<style>
+    .mt_10 {
+        margin-top: 10%;
+    }
+    .main_container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .count_card {
+        display: flex;
+        padding: 10px;
+        border-radius: 10px;
+        margin: 10px;
+        background: linear-gradient(235deg, rgba(19,29,29,1) 0%, rgba(12,102,129,1) 100%);
+        color: #fff;
+    }
+    .count {
+        padding: 10px;
+        aspect-ratio: 2.8;
+        text-align: center;
+        background: #fff;
+        color: #000;
+        margin: 5px;
+        border-radius: 50%;
+    }
+    .text-center {
+        margin: inherit;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="mt_10 main_container">
+    <div class="count_card">
+        <h3 class="text-center">Total num of users: </h3>
+        <h3 class="count"> {{ total_users }}</h3>
+    </div>
+    <div class="count_card">
+        <h3 class="text-center">Total num of PDFs: </h3>
+        <h3 class="count"> {{ total_pdf }}</h3>
+    </div>
+</div>
+{% endblock %}

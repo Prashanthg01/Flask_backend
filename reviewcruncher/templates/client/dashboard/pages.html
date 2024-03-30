@@ -1,0 +1,67 @@
+{% extends "client/dashboard/base.html" %}
+
+{% block custom_css %}
+<style>
+    .img_div img {
+        width: 100%;
+    }
+    .main_heading {
+        position: absolute;
+    font-weight: 600;
+    color: #fff;
+    left: 0;
+    right: 0;
+    max-width: 600px;
+    top: 40%;
+    padding: 20px;
+    margin-right: auto;
+    background: #0d66817d;
+    margin-left: auto;
+    text-align: center;
+    }
+    .btn {
+        position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 145px;
+    top: 62%;
+    background: #0a4350;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    }
+    button a {
+        color: #fff;
+    }
+    @media screen and (max-width: 768px) {
+        .btn {
+            top:63%
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div style="position: relative;">
+    <div class="img_div">
+        <picture>
+            <!-- Add multiple source elements with different sizes -->
+            <source srcset="{{image_path2}}" media="(max-width: 767px)">
+            <source srcset="{{image_path}}" media="(max-width: 1024px)">
+            <source srcset="{{image_path}}">
+            <!-- Default image if no matching media query -->
+            <img class="img-fluid video_wrap" src="{{image_path}}" alt="">
+          </picture>
+    </div>
+    <h1 class="main_heading">{{ heading }}</h1>
+    <p>{{ text }}</p>
+    <button class="btn"> <a href="redirect_to">Know more</a> </button>
+</div>
+{% endblock %}
+
+{% block custom_js %}
+
+{% endblock %}

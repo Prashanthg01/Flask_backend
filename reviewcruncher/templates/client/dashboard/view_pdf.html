@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View PDF</title>
+</head>
+<body>
+    <h1>{{ pdf.title }}</h1>
+
+    <embed src="{{ url_for('static', filename=pdf.pdf_file) }}" width="800px" height="600px" type="application/pdf" />
+</body>
+</html>

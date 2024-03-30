@@ -1,0 +1,62 @@
+{% extends "admin/admin_base.html" %}
+
+{% block custom_css %}
+<style type="text/css">
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+      table {
+        color: #858796;
+      }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="container-fluid mt-5">
+    <center><legend class="mt-5 mb-4"><h1>Performance</h1></legend></center>
+    <div class="shadow mb-4 mx-4 table_body">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>File Name</th>
+                            <th>Last Old Date</th>
+                            <th>Last New Date</th>
+                            <th>Old Reviews</th>
+                            <th>Old Ratings</th>
+                            <th>Info Rev Num</th>
+                            <th>Info Ratings</th>
+                            <th>Status</th>
+                            <th>Change</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for index, row in combined_data.iterrows() %}
+                            <tr>
+                                <td>{{ row['File_name'] }}</td>
+                                <td>{{ row['last_old_date'] }}</td>
+                                <td>{{ row['last_new_date'] }}</td>
+                                <td>{{ row['Old Reviews'] }}</td>
+                                <td>{{ row['Old Ratings'] }}</td>
+                                <td>{{ row['Info_rev_num'] }}</td>
+                                <td>{{ row['Info_ratings'] }}</td>
+                                <td>{{ row['Status'] }}</td>
+                                <td>{{ row['difference'] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block custom_js %}
+<!-- If required add Custom JS for this page in this block -->
+{% endblock %}

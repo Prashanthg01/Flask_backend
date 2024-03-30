@@ -1,0 +1,100 @@
+{% extends "client/dashboard/home.html" %}
+
+
+{% block custom_css %}
+<style type="text/css">
+.login-bg {
+background: url( "{{url_for('static', filename='img/login_bg.png')}}" );
+background-position: center;
+background-size: cover;	
+}
+
+.login_bg_main {
+background: url( "{{url_for('static', filename='img/login_bg_main.jpg')}}" );
+background-position: center;
+background-size: cover;	
+}
+
+.login-card {
+	width: 500px;
+	border: none;
+	background: rgb(255 135 135 / 51%);
+	border-radius: 16px;
+	backdrop-filter: blur(6.6px);
+	color: #fff;
+}
+
+.login_btn {
+	padding: 12px;
+    width: 50%;
+    margin: auto;
+    border-radius: 10px;
+}
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="login_bg_main">
+		<!-- Outer Row -->
+		<div class="row justify-content-center">
+
+			<div class="col-12 d-flex justify-content-center">
+
+				<div class="card o-hidden shadow-lg my-5 login-card">
+						<div class="card-body p-0">
+							<div>
+								<div class="p-5">
+									<div class="text-center">
+											<h1 class="h2 text-white-900 mb-4">Login Form</h1>
+											<hr>
+									</div>
+									<div class="box">
+											{% with messages = get_flashed_messages() %}
+											{% if messages %}
+													<div class="notification is-danger text-center mb-3" style="color:red;">
+															{{ messages[0] }}
+													</div>
+											{% endif %}
+											{% endwith %}
+
+											<form class="user" method="POST" action="{{ url_for('client.login') }}">
+													
+													<div class="form-group p-1" style="border-radius: 10px;">
+															<input type="email" class="form-control" style="padding: 1.5rem 1rem;" name="email" aria-describedby="emailHelp" placeholder="Your Email" style="font-size:18px;" autofocus>
+													</div>
+
+													<div class="form-group p-1" style="border-radius: 10px;">
+															<input type="password" class="form-control" style="padding: 1.5rem 1rem;" name="password" placeholder="Your Password" style="font-size:18px;">
+													</div>
+
+													<div class="form-group p-1" style="border-radius: 10px;">
+													<div class="custom-control custom-checkbox small">
+															<input type="checkbox" class="custom-control-input" id="customCheck">
+															<label class="custom-control-label" for="customCheck">Remember Me</label>
+													</div>
+													</div>
+
+													<button class="btn btn-primary btn-block mb-4 login_btn">Login</button>
+
+											</form>
+
+											<hr>
+											<div class="text-center">
+													<a class="small text-white" href="#">Forgot Password?</a>
+											</div>
+
+									</div>
+								</div>
+							</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+</div>
+{% endblock %}

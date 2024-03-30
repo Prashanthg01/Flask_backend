@@ -1,0 +1,22 @@
+runtime: python37
+entrypoint: gunicorn -b :$PORT reviewcruncher:app
+
+runtime_config:
+  python_version: 3
+
+service: default
+
+#[START gae_flex_mysql]
+# source:- https://cloud.google.com/sql/docs/mysql/connect-app-engine
+env_variables:
+    # Replace user, password, database, and instance connection name with the values obtained when configuring your Cloud SQL instance.
+    # Format MySQL -> mysql+pymysql://<db_user>:<db_pass>@/<db_name>?unix_socket=/cloudsql/<cloud_sql_instance_name>
+    SQLALCHEMY_DATABASE_URI: >-
+      mysql+pymysql://root:foobar123@/flask_production?unix_socket=/cloudsql/composed-hangar-252500:asia-south1:review-cruncher-db
+
+beta_settings:
+    # Replace project and instance with the values obtained  when configuring your Cloud SQL instance.
+    # Format MySQL -> cloud_sql_instances: "<INSTANCE_CONNECTION_NAME>"
+    cloud_sql_instances: "composed-hangar-252500:asia-south1:review-cruncher-db"
+
+#[END gae_flex_mysql]

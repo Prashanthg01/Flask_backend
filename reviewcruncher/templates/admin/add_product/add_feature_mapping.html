@@ -1,0 +1,68 @@
+{% extends "admin/admin_base.html" %}
+
+{% block custom_css %}
+<!-- If required add Custom CSS for this page in this block -->
+{% endblock %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-xl-8 col-lg-8 col-md-8">
+                <div class="mt-5">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-danger center" role="alert">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                </div>
+                <form method="POST" action="{{ url_for('myadmin.add_feature_mapping') }}">
+                    <legend class="border-bottom mt-5 mb-4"><h1>Add Feature Mapping</h1></legend>
+
+                    <div class="form-group input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> Categories </span>
+                        </div>
+                        <input type="text" class="form-control" list="category-list" name="categoryList" placeholder="Type Categories seperated by commas" autocomplete="off" required multiple>
+                        <datalist id="category-list">
+                            {% for item in categoryList %}
+                            <option value = "{{item}}">
+                            {% endfor %}
+                        </datalist> 
+                        </select>
+                    </div>
+
+                    <div class="form-group input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> Feature Words </span>
+                        </div>
+                        <input type="text" class="form-control" list="features-list" name="featuresList" placeholder="Type feature words seperated by commas" autocomplete="off" required multiple>
+                        <datalist id="features-list">
+                            {% for item in featuresList %}
+                            <option value = "{{item}}">
+                            {% endfor %}
+                        </datalist> 
+                        </select>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-8 form-group">
+                            <button type="submit" class="btn btn-primary btn-block btn-lg"> Add </button>
+                        </div>
+                        <div class="col-4 form-group">
+                            <a class="btn btn-dark btn-block btn-lg" href="{{ url_for('myadmin.upload_multiple_files') }}"> Go back </a>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block custom_js %}
+<!-- If required add Custom JS for this page in this block -->
+{% endblock %}

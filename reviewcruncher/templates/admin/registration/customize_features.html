@@ -1,0 +1,166 @@
+{% extends "admin/admin_base.html" %}
+
+{% block custom_css %}
+<link href="{{ url_for('static', filename = 'css/default_theme.css') }}" rel="stylesheet">
+<style type="text/css">
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+      table {
+        color: #858796;
+      }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-5">
+    <center><legend class="mt-5 mb-4"><h1>Customize Features</h1></legend></center>
+    <div class="card p-2">
+        <form method="POST" class="mx-4 my-4 shadow text-center py-4 px-4 d-flex align-items-center border" action="{{ url_for('myadmin.customize_features') }}">			
+            <legend class="m-0 border" ><h4>Select Company</h4></legend>
+            <div class="form-group input-group m-0">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fa fa-building"></i> </span>
+                </div>
+                <select name="company" id="company_id" class="form-control custom-select selectpicker" onchange="this.form.submit()" data-live-search="true" data-size="8" required>
+                    <option value=""> Select Company </option>
+                    {% for item in company_dropdown_options %}
+                        <option value= "{{ item }}" {%if  company==item%} selected {%endif%}> {{ item }} </option>"
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+    <form method="post" style="display: block;">
+        <div class="shadow mb-4 mx-4 table_body">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <tr>
+                            <td colspan="4">
+                                {% with messages = get_flashed_messages() %}
+                                {% if messages %}
+                                <div class="alert alert-success center" role="alert">
+                                    {{ messages[0] }}
+                                </div>
+                                {% endif %}
+                                {% endwith %}
+                            </td>
+                        </tr>
+                        <div>
+                            <td colspan="2"><label for="company_name">Company Name:</label></td>
+                            <td colspan="2" style="display: none;">
+                                <select class="form-control custom-select mb-4 selectpicker" name="company_name" required>
+                                    <option value=""> Select Company </option>
+                                    {% for option in company_dropdown_options %}
+                                    <option value="{{ option }}" {% if existing_data and existing_data.company_name == option %} selected {% elif not existing_data and company == option %} selected {% endif %}> {{ option }} </option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td colspan="2" class="center">{% if existing_data %} {{ existing_data.company_name }} {% elif not existing_data %} {{ company  }}  {% endif %}</td>
+                        </div>
+                        <tr>
+                            <td><label for="wordcloud">Word Cloud:</label></td>
+                            <td><input type="checkbox" name="wordcloud" value="1" {% if existing_data and existing_data.wordcloud %} checked {% endif %}></td>
+
+                            <td><label for="sentiment">Sentiment:</label></td>
+                            <td><input type="checkbox" name="sentiment" value="1" {% if existing_data and existing_data.sentiment %} checked {% endif %}></td>
+                        </tr>
+                        <tr>
+                            <td><label for="features">Features:</label></td>
+                            <td><input type="checkbox" name="features" value="1" {% if existing_data and existing_data.features %} checked {% endif %}></td>
+
+                            <td><label for="competitor">Competitor:</label></td>
+                            <td><input type="checkbox" name="competitor" value="1" {% if existing_data and existing_data.competitor %} checked {% endif %}></td>
+                        </tr>
+                        <tr>
+                            <td><label for="retailanalysis">Retail Analysis:</label></td>
+                            <td><input type="checkbox" name="retailanalysis" value="1" {% if existing_data and existing_data.retailanalysis %} checked {% endif %}></td>
+
+                            <td><label for="bestseller">Best Seller:</label></td>
+                            <td><input type="checkbox" name="bestseller" value="1" {% if existing_data and existing_data.bestseller %} checked {% endif %}></td>
+                        </tr>
+                        <tr>
+                            <td><label for="maps">Maps:</label></td>
+                            <td><input type="checkbox" name="maps" value="1" {% if existing_data and existing_data.maps %} checked {% endif %}></td>
+
+                            <td><label for="market_share">Market Share:</label></td>
+                            <td><input type="checkbox" name="market_share" value="1" {% if existing_data and existing_data.market_share %} checked {% endif %}></td>
+                        </tr>
+                        <tr>
+                            <td><label for="pricing">Pricing:</label></td>
+                            <td><input type="checkbox" name="pricing" value="1" {% if existing_data and existing_data.pricing %} checked {% endif %}></td>
+
+                            <td><label for="sales">Sales:</label></td>
+                            <td><input type="checkbox" name="sales" value="1" {% if existing_data and existing_data.sales %} checked {% endif %}></td>
+                        </tr>
+                        <tr>
+                            <td><label for="search">Search:</label></td>
+                            <td><input type="checkbox" name="search" value="1" {% if existing_data and existing_data.search %} checked {% endif %}></td>
+
+                            <td><label for="topics">Topics:</label></td>
+                            <td><input type="checkbox" name="topics" value="1" {% if existing_data and existing_data.topics %} checked {% endif %}></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button type="submit" class="btn btn-danger btn-block btn-lg" name="action" value="delete">Delete</button>
+                            </td>
+                            <td colspan="2">
+                                <button type="submit" class="btn btn-primary btn-block btn-lg" name="action" value="customize">Customize</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </form>    
+
+    <div class="shadow mb-4 mx-4 table_body">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Company Name</th>
+                            <th>Maps</th>
+                            <th>Word Cloud</th>
+                            <th>Sentiment</th>
+                            <th>Features</th>
+                            <th>Topics</th>
+                            <th>Competitor</th>
+                            <th>Retail Analysis</th>
+                            <th>Pricing</th>
+                            <th>Bestseller</th>
+                            <th>Sales</th>
+                            <th>Market Share</th>
+                            <th>Search</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for data in complete_data %}
+                        <tr>
+                            <td>{{ data.id }}</td>
+                            <td>{{ data.company_name }}</td>
+                            <td>{{ "1" if data.maps else "0" }}</td>
+                            <td>{{ "1" if data.wordcloud else "0" }}</td>
+                            <td>{{ "1" if data.sentiment else "0" }}</td>
+                            <td>{{ "1" if data.features else "0" }}</td>
+                            <td>{{ "1" if data.topics else "0" }}</td>
+                            <td>{{ "1" if data.competitor else "0" }}</td>
+                            <td>{{ "1" if data.retailanalysis else "0" }}</td>
+                            <td>{{ "1" if data.pricing else "0" }}</td>
+                            <td>{{ "1" if data.bestseller else "0" }}</td>
+                            <td>{{ "1" if data.sales else "0" }}</td>
+                            <td>{{ "1" if data.market_share else "0" }}</td>
+                            <td>{{ "1" if data.search else "0" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

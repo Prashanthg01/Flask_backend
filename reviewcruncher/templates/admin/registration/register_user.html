@@ -1,0 +1,83 @@
+{% extends "admin/admin_base.html" %}
+
+{% block content %}
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center  mt-5">
+
+      <div class="col-xl-10 col-lg-12 col-md-9">
+
+        <div class="card o-hidden shadow-lg my-5">
+            <div class="card-body p-0">
+            
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+                
+                <div class="col-lg-6 d-none d-lg-block " style="background:url({{ url_for('static', filename = 'img/login_bg.png') }}); background-position: center; background-size: cover;">
+                </div>
+                
+                <div class="col-lg-6">
+                    <h4 class="card-title mt-3 text-center">Create Account</h4>
+                    <p class="text-center">Signup form for registering client</p>
+
+
+
+                    <form method="POST" action="{{ url_for('myadmin.register_user') }}" class="mx-auto" style="max-width: 350px;">
+
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="alert alert-danger center" role="alert">
+                            {{ messages[0] }}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                    
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                             </div>
+                            <input name="name" class="form-control" autocomplete="off" placeholder="Full name" type="text" required>
+                        </div> <!-- form-group// -->
+
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+                             </div>
+                            <input name="email" class="form-control" autocomplete="off" placeholder="Email address" type="email" required>
+                        </div> <!-- form-group// -->
+
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+                            </div>
+
+                            <input name="phone" class="form-control" autocomplete="off" placeholder="Phone number (optional)" type="tel">
+                        </div> <!-- form-group// -->
+
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                            </div>
+                            <input name="password1" class="form-control" placeholder="Create password" type="password" required>
+                        </div> <!-- form-group// -->
+
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                            </div>
+                            <input name="password2" class="form-control" placeholder="Repeat password" type="password">
+                        </div> <!-- form-group// -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block"> Create Account </button>
+                        </div> <!-- form-group// -->      
+                                                                                 
+                    </form>
+                </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+  </div>
+
+{% endblock %}

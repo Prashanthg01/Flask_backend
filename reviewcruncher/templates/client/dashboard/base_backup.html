@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>LIS ACADEMY DIGITAL PORTAL</title>
+  <!-- New code Custom css -->
+  <link id="stylesheet" href="{{ url_for('static', filename = 'css/default_theme.css') }}" rel="stylesheet">
+  <link id="stylesheet2" href="{{ url_for('static', filename = 'css/default_theme2.css') }}" rel="stylesheet">
+  <!-- New code End -->
+  <!-- Favicon Icon -->
+  <link rel="icon" href="{{ url_for('static', filename = 'img/logo.png') }}" type="image/gif" sizes="16x16">
+  <!-- Custom fonts for this template-->
+  <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'vendor/fontawesome-free/css/all.min.css') }}"> -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/external_downloads/fonts.googleapis.com.css') }}">
+  <!-- Custom styles for this template-->
+  <link href="{{ url_for('static', filename = 'css/sb-admin-2.min.css') }}" rel="stylesheet">
+  <style type="text/css">
+
+		#option1 {display: none;}
+
+    #option2 {display: none;}
+
+    #customizable_options{display: none;}
+			
+	</style>
+
+  {% block custom_css %}
+
+  {% endblock %}
+
+  {% if config['ENV'] == 'production' %}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V3MK32YVFB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-V3MK32YVFB');
+    </script>
+  {% endif %}
+  
+</head>
+{% set customization = custom_data_fun() %}
+
+<body id="page-top">
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion bg_1" id="accordionSidebar">
+      <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url_for('client.home_product_list') }}">
+        <div class="sidebar-brand-icon">
+          <i class="fas fa-home"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Reviews Cruncher </div>
+    </a>
+    {% if not hide_sidebar_in_home_product_list and not hide_sidebar_in_bestseller %}
+      <!-- Divider -->
+      <hr class="sidebar-divider my-2">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Product Overview
+      </div>
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('client.product_dashboard',product_selected_by_user=product_selected_by_user) }}">
+          <i class="fas fa-fw fa-eye"></i>
+          <span>Product Insights</span></a>
+      </li>
+        {%  if customization.maps  %}
+      <!-- Nav Item - Detailed Analysis Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities1" aria-expanded="true" aria-controls="collapseUtilities">
+          <i class="fas fa-fw fa-star"></i>
+          <span>Premium Maps</span>
+        </a>
+        <div id="collapseUtilities1" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">PREMIUM</h6>
+             
+            <a class="collapse-item" href="{{ url_for('client.map_template',product_selected_by_user=product_selected_by_user) }}">
+            Average Ratings
+           </a>
+            <a class="collapse-item" href="{{ url_for('client.map_totals',product_selected_by_user=product_selected_by_user) }}">
+            Number of Ratings
+            </a>
+
+          </div>
+        </div>
+      </li>
+      {% endif %}
+
+      <!-- Nav Item - Text Analysis Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+          <i class="fas fa-fw fa-quote-right"></i>
+          <span>Consumer feedback</span>
+        </a>
+        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Breakdown of Reviews:</h6>
+            <a class="collapse-item" href="{{ url_for('client.sentiment_analysis',product_selected_by_user=product_selected_by_user) }}">Consumer Sentiment</a>
+            <a class="collapse-item" href="{{ url_for('client.feature_breakdown',product_selected_by_user=product_selected_by_user) }}">Feature Insights</a>
+          {%  if  customization.features %}
+          <a class="collapse-item" href="{{ url_for('client.reviews_timeframe',product_selected_by_user=product_selected_by_user) }}">Custom Reviews</a>
+          <a class="collapse-item" href="{{ url_for('client.sentiment_analysis_plot',product_selected_by_user=product_selected_by_user) }}">Sentiment Graph</a>
+          {% endif %}        
+          {%  if  customization.topics %}
+          <a class="collapse-item" href="{{ url_for('client.topics_sentiment_analysis',product_selected_by_user=product_selected_by_user) }}">Topics Sentiment</a>
+          <a class="collapse-item" href="{{ url_for('client.topics_sentiment_analysis_plot',product_selected_by_user=product_selected_by_user) }}">Topics Graph</a>
+          <a class="collapse-item" href="{{ url_for('client.topics_competitor_analysis',product_selected_by_user=product_selected_by_user) }}">Topics Competitor</a>
+          <a class="collapse-item" href="{{ url_for('client.topics_analysis',product_selected_by_user=product_selected_by_user) }}">Topics Analysis</a>
+          {% endif %}      
+          </div>
+        </div>
+      </li>
+
+      {%  if customization.competitor %}
+      <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('client.competitor_analysis',product_selected_by_user=product_selected_by_user)}}">
+        <i class="fas fa-fw fa-heartbeat"></i>
+        <span>Competitor Analysis</span></a>
+      </li>
+      {% endif %}
+       <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities2" aria-expanded="true" aria-controls="collapseUtilities">
+          <i class="fas fa-fw fa-star"></i>
+          <span>Premium Pricing</span>
+        </a>
+        <div id="collapseUtilities2" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">PREMIUM</h6>
+            <a class="collapse-item" href="{{ url_for('client.dist_retailer_pricing',product_selected_by_user=product_selected_by_user) }}">Retailer Pricing</a>
+            {%  if customization.competitor %}
+            <a class="collapse-item" href="{{ url_for('client.pricing_comparison',product_selected_by_user=product_selected_by_user) }}">Price Comparison</a>
+            {% endif %}        
+            <a class="collapse-item" href="{{ url_for('client.graph_pricing_weekly',product_selected_by_user=product_selected_by_user) }}">Custom Pricing</a>        
+         </div>
+        </div>
+      </li>
+
+      {%  if customization.market_share %}
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities3" aria-expanded="true" aria-controls="collapseUtilities">
+          <i class="fas fa-fw fa-star"></i>
+          <span>Premium Sales</span>
+        </a>
+        <div id="collapseUtilities3" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+          <h6 class="collapse-header">PREMIUM</h6>
+          <a class="collapse-item" href="{{ url_for('client.marketshare1',product_selected_by_user=product_selected_by_user) }}">Market Share_comparison</a>
+          <a class="collapse-item" href="{{ url_for('client.marketshare',product_selected_by_user=product_selected_by_user) }}">Market Share</a>
+          <!--<a class="collapse-item" href="{{ url_for('client.sales_retailer',product_selected_by_user=product_selected_by_user) }}">Retailer Sales</a>
+          <a class="collapse-item" href="{{ url_for('client.dist_retailer_reviews',product_selected_by_user=product_selected_by_user) }}">Retailer Reviews</a>
+          <a class="collapse-item" href="{{ url_for('client.sales',product_selected_by_user=product_selected_by_user) }}">Competitor Sales</a> -->    
+          <a class="collapse-item" href="{{ url_for('client.salesmap',product_selected_by_user=product_selected_by_user) }}">Geographic weightages</a>
+          <a class="collapse-item" href="{{ url_for('client.a_content',product_selected_by_user=product_selected_by_user) }}">A+ Content</a>
+          <!--<a class="collapse-item" href="{{ url_for('client.sales_product',product_selected_by_user=product_selected_by_user) }}">Product Sales </a>-->
+        </div>
+        </div>
+      </li>
+      {% endif %}
+
+
+
+
+    {% endif %}
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+   
+      <!-- Nav Item - Other Product List -->
+      {%  if not customization.wordcloud %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('client.home_product_list',product_selected_by_user=product_selected_by_user) }}">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Product List</span></a>
+      </li>
+      {% endif %}
+      {%  if  customization.topics %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('client.complete_map') }}">
+          <i class='fas fa-map-marker-alt'></i>
+          <span>Complete map</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('client.complete_topic_analysis') }}">
+          <i class="fas fa-pie-chart"></i>
+          <span>Complete Topic Analysis</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('client.complete_sentiment_analysis_plot') }}">
+          <i class="fas fa-line-chart"></i>
+          <span>Complete Sentiment analysis</span></a>
+      </li>
+      {% endif %}
+      {%  if customization.wordcloud %}
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities2" aria-expanded="true" aria-controls="collapseUtilities">
+          <i class="fas fa-fw fa-star"></i>
+          <span>Premium Pricing</span>
+        </a>
+        <div id="collapseUtilities2" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">PREMIUM</h6>
+            <a class="collapse-item" href="{{ url_for('client.dist_retailer_pricing',product_selected_by_user=product_selected_by_user) }}">Retailer Pricing</a>
+            {%  if customization.competitor %}
+            <a class="collapse-item" href="{{ url_for('client.pricing_comparison',product_selected_by_user=product_selected_by_user) }}">Price Comparison</a>
+            {% endif %}        
+            <a class="collapse-item" href="{{ url_for('client.graph_pricing_weekly',product_selected_by_user=product_selected_by_user) }}">Custom Pricing</a>        
+         </div>
+        </div>
+      </li>
+      {% endif %}
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+      <div>
+        <button class="rounded-circle border-0" id="customizable_options" value={{customizable_options}}></button>
+      </div>
+
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content" class="bg_4">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow bg_1">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto nav-titles">
+
+            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+            <li class="nav-item dropdown no-arrow d-sm-none">
+              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-search fa-fw"></i>
+              </a>
+              
+      
+            <div class="topbar-divider d-none d-sm-block"></div>
+            {%  if customization.search %}
+            <li class="nav-item dropdown no-arrow"> 
+              <a class="nav-link dropdown-toggle" href="{{ url_for('client.search') }}">
+                <span class="mr-2 d-none d-lg-inline small text-gray-600">Top Searches</span>
+              </a>
+            </li>
+            {% endif %}
+            
+            {%  if customization.wordcloud %}
+            <li class="nav-item dropdown no-arrow"> 
+              <a class="nav-link dropdown-toggle" href="{{ url_for('client.weather') }}">
+                <span class="mr-2 d-none d-lg-inline small text-gray-600">Weather Forecast</span>
+              </a>
+            </li>
+            <li class="nav-item dropdown no-arrow"> 
+              <a class="nav-link dropdown-toggle" href="{{ url_for('client.mop') }}">
+                <span class="mr-2 d-none d-lg-inline small text-gray-600">MOP Breach</span>
+              </a>
+            {% endif %}
+            {%  if not customization.sentiment %}
+            <li class="nav-item dropdown no-arrow"> 
+              <a class="nav-link dropdown-toggle" href="{{ url_for('client.mop_realtime') }}">
+                <span class="mr-2 d-none d-lg-inline small text-gray-600">MOP Breach</span>
+              </a>
+              <li class="nav-item dropdown no-arrow d-none"> 
+                <a class="nav-link dropdown-toggle" href="{{ url_for('client.bank_offers') }}">
+                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">Offers</span>
+                </a>
+              </li>
+              <li class="nav-item dropdown no-arrow"> 
+                <a class="nav-link dropdown-toggle" href="{{ url_for('client.pincode_tat') }}">
+                  <span class="mr-2 d-none d-lg-inline small text-gray-600">Pincode TAT</span>
+                </a>
+              </li>
+              <li class="nav-item dropdown no-arrow"> 
+                <a class="nav-link dropdown-toggle" href="{{ url_for('client.pricing_all') }}">
+                  <span class="mr-2 d-none d-lg-inline small text-gray-600">Pricing Data</span>
+                </a>
+              </li>
+            {% endif %}
+            {%  if customization.bestseller %}
+            <li class="nav-item dropdown no-arrow"> 
+              <a class="nav-link dropdown-toggle" href="{{ url_for('client.bestseller') }}">
+                <span class="mr-2 d-none d-lg-inline small text-gray-600">Bestseller list</span>
+              </a>
+            </li>
+            <li class="nav-item dropdown no-arrow"> 
+              <a class="nav-link dropdown-toggle" href="{{ url_for('client.all_reviews') }}">
+                <span class="mr-2 d-none d-lg-inline small text-gray-600">All Reviews</span>
+              </a>
+            </li>
+            {% endif %}
+            
+              {%  if customization.sales %}
+            <li class="nav-item dropdown no-arrow"> 
+              <a class="nav-link dropdown-toggle" href="{{ url_for('client.sales_all') }}">
+                <span class="mr-2 d-none d-lg-inline small text-gray-600">Inventory List</span>
+              </a>
+            </li>
+            {% endif %}
+         
+            {%  if customization.market_share %}
+            <li class="nav-item dropdown no-arrow"> 
+              <a class="nav-link dropdown-toggle" href="{{ url_for('get_brandwise_best_seller') }}">
+                <span class="mr-2 d-none d-lg-inline small text-gray-600">Bestseller Brandwise</span>
+              </a>
+            </li>
+            <li class="nav-item dropdown no-arrow"> 
+              <a class="nav-link dropdown-toggle" href="{{ url_for('client.pincode_tat') }}">
+                <span class="mr-2 d-none d-lg-inline small text-gray-600">Pincode TAT</span>
+              </a>
+            </li>
+            
+            <li class="nav-item dropdown no-arrow"> 
+              <a class="nav-link dropdown-toggle" href="{{ url_for('client.pricing_all') }}">
+                <span class="mr-2 d-none d-lg-inline small text-gray-600">Pricing Data</span>
+              </a>
+            </li>
+            <li class="nav-item dropdown no-arrow"> 
+              <a class="nav-link dropdown-toggle" href="{{ url_for('client.new_releases') }}">
+                <span class="mr-2 d-none d-lg-inline small text-gray-600">New Releases</span>
+              </a>
+            </li>
+            {% endif %}
+  <!-- ############# New code ############## -->
+          {%  if customization.retailanalysis %}
+          <li class="nav-item dropdown no-arrow">
+            <a class="nav-link dropdown-toggle" href="{{ url_for('client.notifications') }}">
+              <i class="fas fa-fw fa-bullhorn"></i>
+              <div class="badge badge-danger badge-counter">{{ delivery_data_count }}</div> <!-- Display the count here -->
+            </a>
+          </li>  
+          {% endif %}
+  <!-- ############## New code End ############## -->
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline small text-gray-600">{{ current_user.company }}</span>
+                <img class="img-profile rounded-circle" src="{{ url_for('static', filename = 'img/user_ico.png') }}">
+              </a>
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in dropdown_main" aria-labelledby="userDropdown">
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
+                <div class="toggle_btn_main">
+                  <p>Classic Mode: </p><input type="checkbox" id="styleToggle">
+                </div>
+                <div class="toggle_btn_main">
+                  <p>Dark mode: </p><input type="checkbox" id="styleToggle2">
+                </div>
+                
+              </div>
+            </li>
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+        {% block content %}
+        <!-- Here this block fetches the main content of respective web pages -->
+        {% endblock %}
+        <!-- Footer -->
+        <footer class="sticky-footer bg_1">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright &copy; 2020 AutomizeApps. All Rights Reserved</span>
+            </div>
+          </div>
+        </footer>
+        <!-- End of Footer -->
+
+      </div>
+      <!-- End of Main Content -->    
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="{{ url_for('client.logout') }}">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Bootstrap core JavaScript-->
+  <script src="{{ url_for('static', filename = 'vendor/jquery/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename = 'vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="{{ url_for('static', filename = 'vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{{ url_for('static', filename = 'js/sb-admin-2.min.js') }}"></script>
+  <script src="{{ url_for('static', filename = 'js/custom_base.js') }}"></script>
+<!--  New code  -->
+<script>
+  const styleToggle = document.getElementById("styleToggle");
+  const stylesheet = document.getElementById("stylesheet");
+
+  const storedStyle = localStorage.getItem("selectedStyle");
+
+  if (storedStyle) {
+    stylesheet.href = storedStyle;
+    styleToggle.checked = storedStyle.includes("theme_one");
+  }
+
+  styleToggle.addEventListener("change", () => {
+    if (styleToggle.checked) {
+      stylesheet.href = "{{ url_for('static', filename='css/theme_one.css') }}";
+      localStorage.setItem("selectedStyle", "{{ url_for('static', filename='css/theme_one.css') }}");
+    } else {
+      stylesheet.href = "{{ url_for('static', filename='css/default_theme.css') }}";
+      localStorage.setItem("selectedStyle", "{{ url_for('static', filename='css/default_theme.css') }}");
+    }
+  });
+</script>
+<!-- Theme one  -->
+<!-- Theme two -->
+<script>
+  const styleToggle2 = document.getElementById("styleToggle2");
+  const stylesheet2 = document.getElementById("stylesheet2");
+
+  const storedStyle2 = localStorage.getItem("selectedStyle2");
+
+  if (storedStyle2) {
+    stylesheet2.href = storedStyle2;
+    styleToggle2.checked = storedStyle2.includes("dark-theme");
+  }
+
+  styleToggle2.addEventListener("change", () => {
+    if (styleToggle2.checked) {
+      stylesheet2.href = "{{ url_for('static', filename='css/dark-theme.css') }}";
+      localStorage.setItem("selectedStyle2", "{{ url_for('static', filename='css/dark-theme.css') }}");
+    } else {
+      stylesheet2.href = "{{ url_for('static', filename='css/default_theme2.css') }}";
+      localStorage.setItem("selectedStyle2", "{{ url_for('static', filename='css/default_theme2.css') }}");
+    }
+  });
+</script>
+<!-- Theme two End -->
+
+  {% block custom_js %}
+    <!-- Space for custom js in respective html files -->
+    
+  {% endblock %}
+
+
+
+</body>
+
+</html>

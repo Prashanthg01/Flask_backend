@@ -1,0 +1,55 @@
+{% extends "admin/admin_base.html" %}
+
+{% block content %}
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center  mt-5">
+
+      <div>
+
+        <div>
+            <div>
+            
+            <!-- Nested Row within Card Body -->
+            <div class="row" style="margin-top: 5%; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px; padding: 10px; border-radius: 10px;">
+                
+                <div>
+                    <img style="width: 250px;" src="{{ url_for('static', filename='img/register-company.png') }}" alt="">
+                </div>
+                
+                <div class="col-lg-6">
+                    <h4 class="card-title mt-3 text-center">Register Service</h4>
+                    <p class="text-center">Form for registering new Service</p>
+
+
+
+                    <form method="POST" action="{{ url_for('myadmin.register_company') }}" class="mx-auto" style="max-width: 350px;">
+
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="alert alert-danger center" role="alert">
+                            {{ messages[0] }}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                    
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"> <i class="fa fa-building"></i> </span>
+                             </div>
+                            <input name="company_name" class="form-control" autocomplete="off" placeholder="Service Name" type="text" required>
+                        </div> <!-- form-group// -->
+                        <div class="form-group mt-4">
+                            <button type="submit" class="btn btn-primary btn-block"> Create Account </button>
+                        </div> <!-- form-group// -->      
+                                                                                 
+                    </form>
+                </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+  </div>
+
+{% endblock %}
