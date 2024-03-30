@@ -29,7 +29,7 @@ def not_found_error(error):
 
 
 @client.route('/home', methods=['GET'])
-@login_required
+# @login_required
 def home():
     heading = 'Welcome back!'
     text = 'You are in the Home page'
@@ -46,7 +46,7 @@ def register():
     db.session.commit()
     return jsonify({'message': 'User created successfully'})
 
-@client.route('/login', methods=['GET', 'POST'])
+@client.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
     user = User.query.filter_by(email=data['email']).first()
@@ -56,11 +56,21 @@ def login():
     else:
         return jsonify({'message': 'Invalid credentials'}), 401
 
+
 @client.route('/logout')
-@login_required
+# @login_required
 def logout():
     logout_user()
     return jsonify({'message': 'Logout successful'})
+
+@client.route('/check_login', methods=['GET'])
+def check_login():
+    if current_user.is_authenticated:
+        print("valid")
+        return jsonify({'loggedIn': True})
+    else:
+        print("not valid")
+        return jsonify({'loggedIn': False})
 
 # Required for Flask-Login
 @login_manager.user_loader
